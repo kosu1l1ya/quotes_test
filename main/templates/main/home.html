@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Случайная цитата</title> <!-- ← поменяли тут -->
+</head>
+
+<body>
+    <h1>Случайная цитата</h1>
+
+    {% if quote %}
+    <blockquote>"{{ quote.text }}"</blockquote>
+    <p><em>— {{ quote.source.name }}</em></p>
+    <p>Просмотров: {{ quote.views }}</p>
+    {% else %}
+    <p>Пока нет цитат. Добавьте их в админке!</p>
+    {% endif %}
+</body>
+
+</html>
