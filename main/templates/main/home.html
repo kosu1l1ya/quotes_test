@@ -35,10 +35,10 @@
         .quote-container:before {
             content: "\"";
             font-size: 80px;
-            color: #ec8bb5;
+            color: #f9d6e5;
             position: absolute;
             top: -15px;
-            left: 35px;
+            left: 25px;
             opacity: 0.3;
             z-index: 0;
         }
@@ -112,10 +112,29 @@
             padding: 12px 25px;
             display: inline-block;
             border-radius: 30px;
+            transition: background-color 0.3s;
         }
 
         .new-quote-btn:hover {
             background-color: #c67ba5;
+        }
+
+        .popular-btn {
+            background-color: #b357c5;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            display: inline-block;
+            border-radius: 30px;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+
+        .popular-btn:hover {
+            background-color: #8e44ad;
+            /* Темно-сиреневый при наведении */
+            text-decoration: none;
+            color: white;
         }
 
         .add-quote-link {
@@ -135,6 +154,13 @@
             text-align: center;
             padding: 40px;
             color: #888;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -172,7 +198,10 @@
     </div>
     {% endif %}
 
-    <a href="{% url 'add_quote' %}" class="add-quote-link">+ Добавить свою цитату</a>
+    <div class="navigation">
+        <a href="{% url 'add_quote' %}" class="popular-btn">+ Добавить цитату</a>
+        <a href="{% url 'popular_quotes' %}" class="popular-btn">📊 Популярные цитаты</a>
+    </div>
 </body>
 
 </html>

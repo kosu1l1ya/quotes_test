@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Популярные цитаты</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #faf5ff;
+            color: #4a4a4a;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #d291bc;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quote-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(210, 145, 188, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .quote-source {
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .quote-stats {
+            display: flex;
+            gap: 15px;
+            color: #888;
+        }
+
+        .rating {
+            font-weight: bold;
+            color: #e84393;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #d291bc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Топ-10 популярных цитат</h1>
+
+    {% if quotes %}
+    {% for quote in quotes %}
+    <div class="quote-item">
+        <div class="quote-text">"{{ quote.text }}"</div>
+        <div class="quote-source">— {{ quote.source.name }}</div>
+        <div class="quote-stats">
+            <span class="rating">Рейтинг: {{ quote.popularity }}</span>
+            <span>👍 {{ quote.likes }}</span>
+            <span>👎 {{ quote.dislikes }}</span>
+            <span>👁 {{ quote.views }}</span>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="empty-state">
+        <p>Пока нет цитат для рейтинга</p>
+    </div>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="back-link">← Вернуться на главную</a>
+</body>
+
+</html>
