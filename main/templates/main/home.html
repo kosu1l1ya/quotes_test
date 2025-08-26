@@ -8,7 +8,6 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #faf5ff;
-            /* Светло-сиреневый фон */
             color: #4a4a4a;
             max-width: 800px;
             margin: 0 auto;
@@ -18,7 +17,6 @@
 
         h1 {
             color: #d291bc;
-            /* Нежно-сиреневый */
             text-align: center;
             margin-bottom: 30px;
             font-weight: 300;
@@ -35,14 +33,14 @@
         }
 
         .quote-container:before {
-            content: "" ";
- font-size: 80px;
-            color: #f9d6e5;
-            /* Очень светлый розовый */
+            content: "\"";
+            font-size: 80px;
+            color: #ec8bb5;
             position: absolute;
-            top: -20px;
-            left: 10px;
+            top: -15px;
+            left: 35px;
             opacity: 0.3;
+            z-index: 0;
         }
 
         blockquote {
@@ -53,7 +51,7 @@
             padding: 0;
             line-height: 1.5;
             border-left: 4px solid #d291bc;
-            padding-left: 20px;
+            padding-left: 40px;
         }
 
         .source {
@@ -91,38 +89,33 @@
 
         .like-btn {
             background-color: #f9d6e5;
-            /* Светло-розовый */
             color: #d291bc;
         }
 
         .like-btn:hover {
             background-color: #f4b6d0;
-            /* Чуть темнее розовый */
         }
 
         .dislike-btn {
             background-color: #e6e6fa;
-            /* Светло-сиреневый */
             color: #9370db;
         }
 
         .dislike-btn:hover {
             background-color: #d8bfd8;
-            /* Чуть темнее сиреневый */
         }
 
         .new-quote-btn {
             background-color: #d291bc;
-            /* Сиреневый */
             color: white;
             text-decoration: none;
             padding: 12px 25px;
             display: inline-block;
+            border-radius: 30px;
         }
 
         .new-quote-btn:hover {
             background-color: #c67ba5;
-            /* Темнее сиреневый */
         }
 
         .add-quote-link {
@@ -170,7 +163,7 @@
             </form>
         </div>
 
-        <a href="{% url 'home' %}" class="btn new-quote-btn">Новая случайная цитата</a>
+        <a href="{% url 'home' %}" class="new-quote-btn">Новая случайная цитата</a>
     </div>
 
     {% else %}
