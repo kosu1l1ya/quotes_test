@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Случайная цитата</title> <!-- ← поменяли тут -->
+    <title>Случайная цитата</title>
 </head>
 
 <body>
@@ -14,6 +13,18 @@
     <blockquote>"{{ quote.text }}"</blockquote>
     <p><em>— {{ quote.source.name }}</em></p>
     <p>Просмотров: {{ quote.views }}</p>
+
+    <div>
+        <form action="{% url 'like_quote' quote.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">👍 {{ quote.likes }}</button>
+        </form>
+        <form action="{% url 'dislike_quote' quote.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">👎 {{ quote.dislikes }}</button>
+        </form>
+    </div>
+
     {% else %}
     <p>Пока нет цитат. Добавьте их в админке!</p>
     {% endif %}
