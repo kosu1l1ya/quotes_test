@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import models
 import random
-from .models import Quote
+from .models import Quote, Source
 from .forms import QuoteForm
+from django.db.models import Sum
 
 
 def home(request):
@@ -55,3 +56,18 @@ def popular_quotes(request):
     ).order_by('-popularity')[:10]
 
     return render(request, 'main/popular_quotes.html', {'quotes': quotes})
+
+
+def dashboard(request):
+    total_quotes = Quote.objects.count()
+    total_authors = Source.objects.count()
+    total_views = Quote.objects.aggregate(total=Sum('views'))['total'] or 0
+    total_likes = Quote.objects.aggregate(total=Sum('likes'))['total'] or 0
+
+    context = {
+        'total_quotes': total_quotes,
+        'total_authors': total_authors,
+        'total_views': total_views,
+        'total_likes': total_likes,
+    }
+    return render(request, 'main/dashboard.html', context)
