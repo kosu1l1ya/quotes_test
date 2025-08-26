@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 import random
 from .models import Quote
+from .forms import QuoteForm
 
 
 def home(request):
@@ -34,3 +35,15 @@ def dislike_quote(request, quote_id):      # аналогично с дизла�
     quote.dislikes += 1
     quote.save()
     return redirect(f'/?show_quote={quote_id}')
+
+
+def add_quote(request):     # добавление новых цитат в общий пул из интерфейса приложения
+    if request.method == 'POST':
+        form = QuoteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = QuoteForm()
+
+    return render(request, 'main/add_quote.html', {'form': form})

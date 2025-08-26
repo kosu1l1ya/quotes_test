@@ -4,37 +4,182 @@
 <head>
     <meta charset="UTF-8">
     <title>Случайная цитата</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #faf5ff;
+            /* Светло-сиреневый фон */
+            color: #4a4a4a;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #d291bc;
+            /* Нежно-сиреневый */
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 300;
+            font-size: 2.5em;
+        }
+
+        .quote-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(210, 145, 188, 0.15);
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .quote-container:before {
+            content: "" ";
+ font-size: 80px;
+            color: #f9d6e5;
+            /* Очень светлый розовый */
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            opacity: 0.3;
+        }
+
+        blockquote {
+            font-size: 1.4em;
+            font-style: italic;
+            color: #666;
+            margin: 0 0 20px 0;
+            padding: 0;
+            line-height: 1.5;
+            border-left: 4px solid #d291bc;
+            padding-left: 20px;
+        }
+
+        .source {
+            font-size: 1.1em;
+            color: #888;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .like-btn {
+            background-color: #f9d6e5;
+            /* Светло-розовый */
+            color: #d291bc;
+        }
+
+        .like-btn:hover {
+            background-color: #f4b6d0;
+            /* Чуть темнее розовый */
+        }
+
+        .dislike-btn {
+            background-color: #e6e6fa;
+            /* Светло-сиреневый */
+            color: #9370db;
+        }
+
+        .dislike-btn:hover {
+            background-color: #d8bfd8;
+            /* Чуть темнее сиреневый */
+        }
+
+        .new-quote-btn {
+            background-color: #d291bc;
+            /* Сиреневый */
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            display: inline-block;
+        }
+
+        .new-quote-btn:hover {
+            background-color: #c67ba5;
+            /* Темнее сиреневый */
+        }
+
+        .add-quote-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #d291bc;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .add-quote-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Случайная цитата</h1>
 
     {% if quote %}
-    <blockquote>"{{ quote.text }}"</blockquote>
-    <p><em>— {{ quote.source.name }}</em></p>
-    <p>Просмотров: {{ quote.views }}</p>
+    <div class="quote-container">
+        <blockquote>"{{ quote.text }}"</blockquote>
+        <p class="source">— {{ quote.source.name }}</p>
 
-    <div>
-        <form action="{% url 'like_quote' quote.id %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit">👍 {{ quote.likes }}</button>
-        </form>
-        <form action="{% url 'dislike_quote' quote.id %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit">👎 {{ quote.dislikes }}</button>
-        </form>
-    </div>
+        <div class="stats">
+            <span>Просмотров: {{ quote.views }}</span>
+            <span>Популярность: {{ quote.popularity }}</span>
+        </div>
 
-    <!-- Кнопка для получения новой случайной цитаты -->
-    <div style="margin-top: 20px;">
-        <a href="{% url 'home' %}">
-            <button>Новая случайная цитата</button>
-        </a>
+        <div class="actions">
+            <form action="{% url 'like_quote' quote.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn like-btn">👍 {{ quote.likes }}</button>
+            </form>
+            <form action="{% url 'dislike_quote' quote.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn dislike-btn">👎 {{ quote.dislikes }}</button>
+            </form>
+        </div>
+
+        <a href="{% url 'home' %}" class="btn new-quote-btn">Новая случайная цитата</a>
     </div>
 
     {% else %}
-    <p>Пока нет цитат. Добавьте их в админке!</p>
+    <div class="empty-state">
+        <p>Пока нет цитат. Добавьте их в админке или через форму!</p>
+    </div>
     {% endif %}
+
+    <a href="{% url 'add_quote' %}" class="add-quote-link">+ Добавить свою цитату</a>
 </body>
 
 </html>
