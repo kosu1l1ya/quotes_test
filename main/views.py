@@ -4,27 +4,33 @@ from .models import Quote
 
 
 def home(request):
-    quotes = list(Quote.objects.all())
-    if quotes:
-        weights = [q.weight for q in quotes]
-        random_quote = random.choices(quotes, weights=weights, k=1)[0]
-        random_quote.views += 1
-        random_quote.save()
-    else:
-        random_quote = None
+    # проверка, запрошена ли конкретная цитата через параметр url
+    quote_id = request.GET.get('show_quote')
 
-    return render(request, 'main/home.html', {'quote': random_quote})
+    if quote_id:        # показывается указанная цитату без увеличения счетчика просмотров
+        quote = get_object_or_404(Quote, id=quote_id)
+    else:       # выбирается случайная цитата с учетом веса и увеличивается счетчик просмотров
+        quotes = list(Quote.objects.all())
+        if quotes:
+            weights = [q.weight for q in quotes]
+            quote = random.choices(quotes, weights=weights, k=1)[0]
+            quote.views += 1
+            quote.save()
+        else:
+            quote = None
+
+    return render(request, 'main/home.html', {'quote': quote})
 
 
-def like_quote(request, quote_id):
+def like_quote(request, quote_id):      # счетчик лайков увеличивается и остаётся та же цитата
     quote = get_object_or_404(Quote, id=quote_id)
     quote.likes += 1
     quote.save()
-    return redirect('home')
+    return redirect(f'/?show_quote={quote_id}')
 
 
-def dislike_quote(request, quote_id):
+def dislike_quote(request, quote_id):      # аналогично с дизлайками
     quote = get_object_or_404(Quote, id=quote_id)
     quote.dislikes += 1
     quote.save()
-    return redirect('home')
+    return redirect(f'/?show_quote={quote_id}')
