@@ -74,10 +74,8 @@ def dashboard(request):
         )
     ).order_by('-engagement').first()
 
-    # Получаем параметр сортировки из GET-запроса
     sort_by = request.GET.get('sort', 'quote_count')
 
-    # Определяем порядок сортировки
     if sort_by == 'name':
         order_by = 'name'
     elif sort_by == 'quote_count':
